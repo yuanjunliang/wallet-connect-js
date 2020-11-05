@@ -1,6 +1,6 @@
 {
   "name": "wallet-connect-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "block chain wallet connect tools,Support EOS, ETH, TRON and other chains",
   "main": "index.js",
   "author": "yuanjunliang",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuanjunliang/wallet-connect.git"
+    "url": "git+https://github.com/yuanjunliang/wallet-connect-js.git"
   },
   "keywords": [
     "ETH",
@@ -21,9 +21,9 @@
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yuanjunliang/wallet-connect/issues"
+    "url": "https://github.com/yuanjunliang/wallet-connect-js/issues"
   },
-  "homepage": "https://github.com/yuanjunliang/wallet-connect#readme",
+  "homepage": "https://github.com/yuanjunliang/wallet-connect-js#readme",
   "dependencies": {
     "eos-wallet-js": "^1.0.26",
     "web3": "^1.3.0"
