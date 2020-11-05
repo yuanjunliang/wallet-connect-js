@@ -7,7 +7,6 @@ export default class Wallet {
     this.chainId = chainId || '0x1'; // default MainNet
     this.contract = {};
     this.web3 = {};
-    this.networkVersion = chainId;
   }
 
   login() {
@@ -28,8 +27,8 @@ export default class Wallet {
 
       ethereum.request({ method: 'eth_requestAccounts' })
         .then((accounts) => {
-          if (ethereum.chainId !== chainId) {
-            reject(Error(`Please select the ${config.networkName[chainId]}`));
+          if (ethereum.chainId !== this.chainId) {
+            reject(Error(`Please select the ${config.networkName[this.chainId]}`));
             return;
           }
           if (accounts.length > 0) {
@@ -53,7 +52,7 @@ export default class Wallet {
   }
 
   chainChanged(chainId) {
-    this.networkVersion = chainId;
+    this.chainId = chainId;
     if (this.onNetworkChanged) {
       this.onNetworkChanged(chainId);
     }
