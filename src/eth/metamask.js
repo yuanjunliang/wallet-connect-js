@@ -2,7 +2,7 @@ import Web3 from 'web3';
 
 export default class Wallet {
   constructor(chainId) {
-    this.web3Provider = null;
+    this.ethereum = null;
     this.selectedAddress = '';
     this.chainId = chainId || '0x1'; // default MainNet
     this.contract = {};
@@ -10,7 +10,6 @@ export default class Wallet {
   }
 
   login() {
-    const self = this;
     return new Promise((resolve, reject) => {
       if (typeof window.ethereum === 'undefined') {
         reject(Error('please install metamask'));
@@ -21,9 +20,9 @@ export default class Wallet {
         return;
       }
       const { ethereum } = window;
-      ethereum.on('accountsChanged', self.accountsChanged.bind(self));
-      ethereum.on('chainChanged', self.chainChanged.bind(self));
-      ethereum.on('disconnect', self.disconnect.bind(self));
+      ethereum.on('accountsChanged', this.accountsChanged.bind(this));
+      ethereum.on('chainChanged', this.chainChanged.bind(this));
+      ethereum.on('disconnect', this.disconnect.bind(this));
 
       ethereum.request({ method: 'eth_requestAccounts' })
         .then((accounts) => {
@@ -33,14 +32,14 @@ export default class Wallet {
           }
           if (accounts.length > 0) {
             const selectedAddress = accounts[0];
-            self.selectedAddress = selectedAddress;
-            self.web3Provider = ethereum;
-            self.web3 = new Web3(this.web3Provider);
+            this.selectedAddress = selectedAddress;
+            this.ethereum = ethereum;
+            this.web3 = new Web3(this.ethereum);
             resolve(selectedAddress);
           } else {
             reject(Error('Please import your account to Metamask'));
           }
-        });
+        }).catch(reject);
     });
   }
 
