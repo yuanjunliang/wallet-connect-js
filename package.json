@@ -1,6 +1,6 @@
 {
   "name": "wallet-connect-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "block chain wallet connect tools,Support EOS, ETH, TRON and other chains",
   "main": "index.js",
   "author": "yuanjunliang",

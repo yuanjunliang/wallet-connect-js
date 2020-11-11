@@ -1,5 +1,6 @@
 import MetaMask from './src/eth/MetaMask'
 import WalletConnector from './src/eth/WalletConnector'
+import ContractApi from './src/eth/ContractApi'
 import EOSWallet from 'eos-wallet-js'
 
 // ETH chainIds
@@ -14,6 +15,7 @@ export const ChainIds = {
 export default {
     eth: {
         MetaMask,
+        ContractApi,
         WalletConnector
     },
     eos: {

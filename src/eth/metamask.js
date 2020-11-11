@@ -1,13 +1,29 @@
 import Web3 from 'web3';
+import BN from 'bignumber.js-ext';
+
+const NetworkName = {
+  '0x1': 'MainNetwork', // Ethereum Main Network (MainNet)
+  '0x3': 'RopstenNetwork', // Ropsten Test Network
+  '0x4': 'RinkebyNetwork', // Rinkeby Test Network
+  '0x5': 'GoerliNetwork', // Goerli Test Network
+  '0x2a': 'KovanNetwork', // Kovan Test Network
+  '0x1691': 'LocalhostNetword', // Localhost Test Network
+};
+
+const defaultConfig = {
+  chainId: '0x1',
+  networkName: NetworkName,
+};
 
 export default class Wallet {
-  constructor(chainId) {
+  constructor(config = defaultConfig) {
     this.ethereum = null;
     this.selectedAddress = '';
-    this.chainId = chainId || '0x1'; // default MainNet
+    this.chainId = config.chainId; // default MainNet
+    this.networkName = config.networkName;
     this.contract = {};
     this.web3 = {};
-    this.type = 'MetaMask'
+    this.type = 'MetaMask';
   }
 
   login() {
@@ -28,7 +44,7 @@ export default class Wallet {
       ethereum.request({ method: 'eth_requestAccounts' })
         .then((accounts) => {
           if (ethereum.chainId !== this.chainId) {
-            reject(Error(`Please select the ${config.networkName[this.chainId]}`));
+            reject(Error(`Please select the ${this.networkName[this.chainId]}`));
             return;
           }
           if (accounts.length > 0) {
@@ -70,22 +86,22 @@ export default class Wallet {
     this.contract = {};
   }
 
+  newContract(abi, contractAddress) {
+    this.contract = new this.web3.eth.Contract(abi, contractAddress);
+    return this.contract;
+  }
+
   /** public
    * 转账ETH
    * @param {*} to :收款账户
    * @param {*} value :转账金额，不需要处理精度
    */
-  transfer (to,value) {
+  transfer(to, value) {
     const tx = {
       from: this.selectedAddress,
       to,
-      value: BN(value).mul(1e18).toString(10)
-    }
-    return this.web3.sendTransaction(tx)
-  }
-
-  newContract(abi, contractAddress) {
-    this.contract = new this.web3.eth.Contract(abi, contractAddress);
-    return this.contract;
+      value: BN(value).mul(1e18).toString(10),
+    };
+    return this.web3.eth.sendTransaction(tx);
   }
 }
