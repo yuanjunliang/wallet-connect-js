@@ -7,6 +7,7 @@ export default class Wallet {
     this.chainId = chainId || '0x1'; // default MainNet
     this.contract = {};
     this.web3 = {};
+    this.type = 'MetaMask'
   }
 
   login() {
@@ -67,6 +68,20 @@ export default class Wallet {
     this.selectedAddress = '';
     this.web3 = {};
     this.contract = {};
+  }
+
+  /** public
+   * 转账ETH
+   * @param {*} to :收款账户
+   * @param {*} value :转账金额，不需要处理精度
+   */
+  transfer (to,value) {
+    const tx = {
+      from: this.selectedAddress,
+      to,
+      value: BN(value).mul(1e18).toString(10)
+    }
+    return this.web3.sendTransaction(tx)
   }
 
   newContract(abi, contractAddress) {
